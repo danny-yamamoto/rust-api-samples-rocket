@@ -8,11 +8,6 @@ use sqlx::SqlitePool;
 mod models;
 mod routes;
 
-#[get("/")]
-fn hello_world() -> &'static str {
-    "Hello World."
-}
-
 #[launch]
 async fn rocket() -> _ {
     dotenv().ok();
@@ -22,5 +17,5 @@ async fn rocket() -> _ {
     let user_service = Arc::new(UserService::new(pool));
     rocket::build()
     .manage(user_service)
-    .mount("/", routes![hello_world, user_handler])
+    .mount("/", routes![user_handler])
 }
