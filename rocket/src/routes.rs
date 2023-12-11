@@ -1,7 +1,7 @@
 use crate::get;
 use std::sync::Arc;
 
-use rocket::State;
+use rocket::{State, serde::json::Json};
 use sqlx::SqlitePool;
 
 use crate::models::{UserService, User};
@@ -17,11 +17,10 @@ impl UserService {
 }
 
 #[get("/users")]
-pub async fn user_handler(user_service: &State<Arc<UserService>>) -> &'static str {
+pub async fn user_handler(user_service: &State<Arc<UserService>>) -> Json<Option<User>> {
     let user_id:i64 = 1;
     match user_service.fetch_user(user_id).await {
-        Ok(_) => println!("success"),
-        Err(_) => println!("error"),
+        Ok(user) => Json(user),
+        Err(_) => Json(None),
     }
-    "hoge"
 }
