@@ -16,6 +16,6 @@ async fn rocket() -> _ {
     let pool = SqlitePool::connect(&db_url).await.expect("Failed to connect database.");
     let user_service = Arc::new(UserService::new(pool));
     rocket::build()
-    .manage(user_service)
-    .mount("/", routes![user_handler])
+        .manage(user_service)
+        .mount("/", routes![user_handler])
 }

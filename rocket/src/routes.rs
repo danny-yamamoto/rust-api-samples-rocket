@@ -3,6 +3,7 @@ use std::sync::Arc;
 
 use rocket::{State, serde::json::Json};
 use sqlx::SqlitePool;
+use rocket::http::{Status, ContentType};
 
 use crate::models::{UserService, User};
 
@@ -16,11 +17,10 @@ impl UserService {
     }
 }
 
-#[get("/users")]
-pub async fn user_handler(user_service: &State<Arc<UserService>>) -> Json<Option<User>> {
-    let user_id:i64 = 1;
+#[get("/users/<user_id>")]
+pub async fn user_handler(user_id: i64, user_service: &State<Arc<UserService>>) -> (Status, (ContentType, Json<Option<User>>)) {
     match user_service.fetch_user(user_id).await {
-        Ok(user) => Json(user),
-        Err(_) => Json(None),
+        Ok(user) => (Status::Ok, (ContentType::JSON, Json(user))),
+        Err(_) => (Status::InternalServerError, (ContentType::JSON, Json(None))),
     }
 }
