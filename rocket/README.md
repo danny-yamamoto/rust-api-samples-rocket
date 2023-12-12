@@ -38,3 +38,8 @@ echo $DATABASE_URL
 ```bash
 cargo sqlx prepare --database-url "sqlite:./local.db"
 ```
+
+## 
+```bash
+curl -i localhost:8000/users/1
+```
