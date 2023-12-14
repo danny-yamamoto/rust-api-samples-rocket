@@ -7,6 +7,7 @@ sqlite3 local.db
 
 ## Create add and delete queries and migrate data
 ```bash
+cargo install sqlx-cli --no-default-features --features sqlite
 sqlx migrate add -r create_table
 
 # Add query to migrations files
