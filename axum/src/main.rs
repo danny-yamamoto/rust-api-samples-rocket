@@ -19,7 +19,7 @@ async fn main() {
     let user_service = Arc::new(UserService::new(pool));
     let app = Router::new().route("/users/:user_id", get(user_handler))
         .layer(Extension(user_service));
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:8000")
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:8080")
         .await.unwrap();
     axum::serve(listener, app).await.unwrap();
 }

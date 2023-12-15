@@ -40,7 +40,10 @@ echo $DATABASE_URL
 cargo sqlx prepare --database-url "sqlite:./local.db"
 ```
 
-## 
+## Test
 ```bash
 curl -i localhost:8000/users/1
 ```
+
+## Reference
+- [Default Provider](https://rocket.rs/v0.5/guide/configuration/#default-provider)
