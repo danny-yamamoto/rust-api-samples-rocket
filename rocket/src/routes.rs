@@ -13,7 +13,8 @@ impl UserService {
     }
 
     pub async fn fetch_user(&self, user_id: i64) -> Result<Option<User>, sqlx::Error> {
-        sqlx::query_as!(User, "SELECT user_id, email_address, created_at, deleted, settings FROM users WHERE user_id = ?", user_id).fetch_optional(&self.pool).await
+        sqlx::query_as!(User, "SELECT user_id, email_address, created_at, deleted, settings FROM users WHERE user_id = ?", user_id)
+            .fetch_optional(&self.pool).await
     }
 }
 
