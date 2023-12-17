@@ -45,5 +45,8 @@ cargo sqlx prepare --database-url "sqlite:./local.db"
 curl -i localhost:8000/users/1
 ```
 
+## Port Settings
+[Rocket.toml](./Rocket.toml)
+
 ## Reference
 - [Default Provider](https://rocket.rs/v0.5/guide/configuration/#default-provider)
