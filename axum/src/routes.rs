@@ -1,7 +1,25 @@
 use std::sync::Arc;
-use axum::{Extension, extract::Path, http::StatusCode, Json};
+use axum::{Extension, extract::Path, http::StatusCode, Json, response::IntoResponse};
+use cloud_storage::Client;
 use sqlx::SqlitePool;
-use crate::models::{UserService, User};
+use crate::models::{UserService, User, StorageResponse, StorageQuery};
+use axum::response::Response;
+
+pub enum ApiResponse {
+    UserResponse(Option<User>),
+    StorageResponse(StorageResponse),
+    ErrorResponse(String),
+}
+
+impl IntoResponse for ApiResponse {
+    fn into_response(self) -> Response {
+        match self {
+            ApiResponse::UserResponse(user) => (StatusCode::OK, Json(user)).into_response(),
+            ApiResponse::StorageResponse(storage) => (StatusCode::OK, Json(storage)).into_response(),
+            ApiResponse::ErrorResponse(err) => (StatusCode::INTERNAL_SERVER_ERROR, Json(err)).into_response(),
+        }
+    }
+}
 
 impl UserService {
     pub fn new(pool: SqlitePool) -> Self {
@@ -13,9 +31,32 @@ impl UserService {
     }
 }
 
-pub async fn user_handler(Path(user_id): Path<i64>, Extension(user_service): Extension<Arc<UserService>>) -> (StatusCode, Json<Option<User>>) {
+pub async fn user_handler(Path(user_id): Path<i64>, Extension(user_service): Extension<Arc<UserService>>) -> impl IntoResponse {
     match user_service.fetch_user(user_id).await {
-        Ok(user) => (StatusCode::OK, Json(user)),
-        Err(_) => (StatusCode::INTERNAL_SERVER_ERROR, Json(None)),
+        Ok(user) => ApiResponse::UserResponse(user),
+        Err(_) => ApiResponse::ErrorResponse("Internal Server Error.".to_string()),
+    }
+}
+
+pub struct  StorageService;
+
+impl StorageService {
+    pub fn new() -> Self {
+        StorageService {}
+    }
+
+    pub async fn download_content(&self, query: &StorageQuery) -> Result<StorageResponse, String> {
+        let client = Client::default();
+        match client.object().download(&query.bucket, &query.object).await {
+            Ok(bytes) => Ok(StorageResponse { content: String::from_utf8_lossy(&bytes).to_string() }),
+            Err(error) => Err(error.to_string()),
+        }
+    }
+}
+
+pub async fn storage_handler(Path(query): Path<StorageQuery>, Extension(storage_service):Extension<Arc<StorageService>>) -> impl IntoResponse {
+    match storage_service.download_content(&query).await {
+        Ok(content) => ApiResponse::StorageResponse(content),
+        Err(error) => ApiResponse::ErrorResponse(error.to_string()),
     }
 }
