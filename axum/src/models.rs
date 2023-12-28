@@ -18,3 +18,14 @@ pub struct UserQuery {
 pub struct UserService {
     pub pool: SqlitePool,
 }
+
+#[derive(Deserialize)]
+pub struct StorageQuery {
+    pub bucket: String,
+    pub object: String,
+}
+
+#[derive(Serialize)]
+pub struct StorageResponse {
+    pub content: String,
+}

@@ -16,3 +16,5 @@ Cargo.lock
 local.db*
 
 .sqlx
+
+key.json
