@@ -1,5 +1,5 @@
 use std::sync::Arc;
-use axum::{Extension, extract::Path, http::StatusCode, Json, response::IntoResponse};
+use axum::{Extension, extract::{Path, Query}, http::StatusCode, Json, response::IntoResponse};
 use cloud_storage::Client;
 use sqlx::SqlitePool;
 use crate::models::{UserService, User, StorageResponse, StorageQuery};
@@ -54,7 +54,8 @@ impl StorageService {
     }
 }
 
-pub async fn storage_handler(Path(query): Path<StorageQuery>, Extension(storage_service):Extension<Arc<StorageService>>) -> impl IntoResponse {
+pub async fn storage_handler(Query(query): Query<StorageQuery>, Extension(storage_service):Extension<Arc<StorageService>>) -> impl IntoResponse {
+    println!("Received query: {:?}", query);
     match storage_service.download_content(&query).await {
         Ok(content) => ApiResponse::StorageResponse(content),
         Err(error) => ApiResponse::ErrorResponse(error.to_string()),

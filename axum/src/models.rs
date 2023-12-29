@@ -19,7 +19,7 @@ pub struct UserService {
     pub pool: SqlitePool,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize,Debug)]
 pub struct StorageQuery {
     pub bucket: String,
     pub object: String,

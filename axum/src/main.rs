@@ -23,9 +23,9 @@ async fn main() {
         Err(error) => println!("Environment variable SERVICE_ACCOUNT is not set. {}", error),
     }
     let storage_service = Arc::new(StorageService::new());
-    let app = Router::new()
+    let app: Router = Router::new()
         .route("/users/:user_id", get(user_handler)).layer(Extension(user_service))
-        .route("/storage/:bucket", get(storage_handler)).layer(Extension(storage_service));
+        .route("/storage", get(storage_handler)).layer(Extension(storage_service));
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8080")
         .await.unwrap();
     axum::serve(listener, app).await.unwrap();
