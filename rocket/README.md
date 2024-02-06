@@ -40,9 +40,14 @@ echo $DATABASE_URL
 cargo sqlx prepare --database-url "sqlite:./local.db"
 ```
 
+## Run
+```bash
+cargo run
+```
+
 ## Test
 ```bash
-curl -i localhost:8000/users/1
+curl -i localhost:8080/users/1
 ```
 
 ## Port Settings
