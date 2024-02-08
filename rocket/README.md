@@ -50,6 +50,40 @@ cargo run
 curl -i localhost:8080/users/1
 ```
 
+## Deploy
+```bash
+yamamoto_daisuke@cloudshell:~/rust-api-samples-rocket/rocket (sanbox-334000)$ gcloud run deploy
+Deploying from source. To deploy a container use [--image]. See https://cloud.google.com/run/docs/deploying-source-code for more details.
+Source code location (/home/yamamoto_daisuke/rust-api-samples-rocket/rocket):
+Next time, use `gcloud run deploy --source .` to deploy the current directory.
+
+Service name (rocket):
+Please specify a region:
+ [1] africa-south1
+ [2] asia-east1
+ [3] asia-east2
+ [4] asia-northeast1
+ [5] asia-northeast2
+ [6] asia-northeast3
+ [7] asia-south1
+ [8] asia-south2
+ [9] asia-southeast1
+ [10] asia-southeast2
+ [11] australia-southeast1
+ [12] australia-southeast2
+-  Building and deploying... Building Container.
+
+OK Building and deploying... Done.
+
+  OK Building Container... Logs are available at [https://console.cloud.google.com/cloud-build/builds/a-b-c-d-ed?project=xxxxxxxxxxxx].
+  OK Creating Revision...
+  OK Routing traffic...
+Done.
+Service [rocket] revision [rocket-00005-v4l] has been deployed and is serving 100 percent of traffic.
+Service URL: https://rocket-hoge-an.a.run.app
+yamamoto_daisuke@cloudshell:~/rust-api-samples-rocket/rocket (sanbox-334000)$ 
+```
+
 ## Port Settings
 [Rocket.toml](./Rocket.toml)
 
