@@ -1,0 +1,6 @@
+dbs:
+  - path: /local.db
+    replicas:
+      - type:   gcs
+        bucket: litetodo
+        path:   local.db
