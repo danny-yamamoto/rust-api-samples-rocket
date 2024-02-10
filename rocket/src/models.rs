@@ -1,7 +1,7 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use sqlx::SqlitePool;
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct User {
     pub user_id: i64,
     pub email_address: Option<String>,
