@@ -47,7 +47,7 @@ cargo run
 
 ## Test
 ```bash
-curl -i localhost:8080/users/1
+curl -i -X GET localhost:8080/users/1
 ```
 
 ## Deploy

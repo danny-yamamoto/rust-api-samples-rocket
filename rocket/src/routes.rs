@@ -1,7 +1,7 @@
 use crate::get;
 use std::sync::Arc;
 
-use rocket::{State, serde::json::Json};
+use rocket::{post, serde::json::Json, State};
 use sqlx::SqlitePool;
 use rocket::http::{Status, ContentType};
 
@@ -24,4 +24,11 @@ pub async fn user_handler(user_id: i64, user_service: &State<Arc<UserService>>) 
         Ok(user) => (Status::Ok, (ContentType::JSON, Json(user))),
         Err(_) => (Status::InternalServerError, (ContentType::JSON, Json(None))),
     }
+}
+
+#[post("/users", format = "json", data = "<user_data>")]
+pub async fn user_post_handler(user_data: &str) -> (Status, (ContentType, Json<Option<User>>)) {
+    //format!("{:?}", name);
+    println!("{:?}", user_data);
+    (Status::Ok, (ContentType::JSON, Json(None)))
 }

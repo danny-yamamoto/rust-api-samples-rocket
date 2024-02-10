@@ -2,7 +2,7 @@ use std::{env, sync::Arc};
 use dotenv::dotenv;
 use models::UserService;
 use rocket::{routes, get, launch};
-use routes::user_handler;
+use routes::{user_handler, user_post_handler};
 use sqlx::SqlitePool;
 
 mod models;
@@ -20,5 +20,5 @@ async fn rocket() -> _ {
     let user_service = Arc::new(UserService::new(pool));
     rocket::build()
         .manage(user_service)
-        .mount("/", routes![user_handler])
+        .mount("/", routes![user_handler, user_post_handler ])
 }
