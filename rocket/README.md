@@ -47,7 +47,10 @@ cargo run
 
 ## Test
 ```bash
+# GET
 curl -i -X GET localhost:8080/users/1
+# POST
+curl -X POST -i -H "Content-Type: application/json" -d '{"user_id" : 9, "email_address": "9@example.com", "settings": "test 9"}' localhost:8080/users
 ```
 
 ## Deploy
