@@ -52,3 +52,13 @@ pub async fn user_post_handler(user_data: Json<User>, user_service: &State<Arc<U
         Err(_) => (Status::InternalServerError, (ContentType::JSON, Json(None))),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::{fs::File, path::PathBuf};
+    use rstest::rstest;
+    #[rstest]
+    fn should_read_file_b(#[files("json/*.json")] path: PathBuf) {
+        assert!(File::open(path).is_ok());
+    }
+}

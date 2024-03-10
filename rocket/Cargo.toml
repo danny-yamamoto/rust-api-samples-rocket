@@ -9,3 +9,4 @@ dotenv = "0.15.0"
 sqlx = { version = "0.7.3", features = ["sqlite", "runtime-tokio-native-tls", "chrono", "runtime-tokio", "macros"] }
 rocket = { version = "0.5.0", features = ["json"] }
 serde = { version = "1.0.193", features = ["derive"] }
+rstest = "0.18.2"
